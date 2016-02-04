@@ -1,5 +1,5 @@
 # python files
-.py[cod]
+*.py[cod]
 *.pkl
 
 # VIM stuff
