@@ -4,6 +4,7 @@ used by various ART modules
 """
 
 from collections import Counter
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -63,3 +64,53 @@ def get_unique_chars(irow, reverse=False):
         char1, char2 = chars.keys()
 
     return char1, char2
+
+
+def display_single_png(raw, ax=None, pred=None):
+    """raw data is from 10x10 png
+    """
+    raw = raw.reshape(10, 10)
+
+    if ax is None:
+        fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(1, 1))
+        display_canvas = True
+    else:
+        # ax provided
+        display_canvas = False
+    ax.imshow(raw, cmap='Greys',  interpolation='nearest')
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    if pred is not None:
+        ax.set_title("prediction: {}".format(pred))
+
+    if display_canvas:
+        plt.show()
+    return ax
+
+
+def display_all_png(data):
+
+    # Construct canvas
+    # n_axes = data.shape[0]
+    nrows = int(round(data.shape[0] / 5)) + 1
+    ncols = 5
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5, 5))
+
+    if not isinstance(axes, np.ndarray):
+        axes = [axes]
+
+    # plot each in data
+    for idx, data_row in enumerate(data):
+        canvas_row = idx / 5
+        canvas_col = idx % 5
+
+        assert isinstance(data_row, np.ndarray)
+        display_single_png(data_row, axes[canvas_row][canvas_col])
+
+    for idx in range(data.shape[0], nrows*ncols):
+        # extra axes in canvas. Clean these.
+        canvas_row = idx / 5
+        canvas_col = idx % 5
+        ax = axes[canvas_row][canvas_col]
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
