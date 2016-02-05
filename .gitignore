@@ -1,3 +1,6 @@
+# project specific
+*.log
+
 # python files
 *.py[cod]
 *.pkl
@@ -5,6 +8,7 @@
 # VIM stuff
 .swp
 *.swo
+
 
 # Ipython notebook 
 ipynb/.ipynb_checkpoints/
